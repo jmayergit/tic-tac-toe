@@ -1,0 +1,48 @@
+.box {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background-color: gray;
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  font-size: 450%;
+  text-color: white;
+  text-align: center;
+}
+
+#box_1 {
+
+}
+#box_2 {
+  top: -106px;
+  left: 106px;
+}
+#box_3 {
+  top: -212px;
+  left: 212px;
+}
+#box_4 {
+  top: -212px;
+}
+#box_5 {
+  top: -318px;
+  left: 106px;
+
+}
+#box_6 {
+  top: -424px;
+  left: 212px;
+
+}
+#box_7 {
+  top: -424px;
+}
+#box_8 {
+  top: -530px;
+  left: 106px;
+}
+#box_9 {
+  top: -636px;
+  left: 212px;
+}
