@@ -23,8 +23,6 @@ function isEmpty (box) {
   return box.innerHTML === ""
 }
 
-for( var i = 0)
-
 /// indices is a list of three indices
 function isAllX (indices) {
   for(var i = 0; i < indices.length; i++) {
@@ -71,3 +69,44 @@ function oWin () {
   }
   return false
 }
+
+function emptyBoxes () {
+  empty = []
+  for( var i = 0; i < boxes.length; i++) {
+    box = boxes[i]
+    if( isEmpty( box ) ) { empty.push(box) }
+  }
+  return empty
+}
+
+function aiMove () {
+  /// AI is X
+  available = emptyBoxes()
+  if ( available.length !== 0 ) {
+    makeX( available[ Math.floor( Math.random() * emptyBoxes.length ) ] )
+  };
+}
+
+function aiIntelligence () {
+  /// boxes with more availabe adjacent boxes have more potential
+  /// if user has 2 in a row with a third empty is same row, must defeat attempt
+  /// 
+}
+
+function game () {
+  for( var i = 0; i < boxes.length; i++) {
+    boxes[i].addEventListener( 'click', function () {
+      /// user is O
+      if( isEmpty(this) ) {
+        makeO(this)
+        if( oWin() ) { console.log('O wins!')
+        }else {
+          aiMove()
+          if( xWin() ) { console.log('X wins!') }
+        }
+      }
+    })
+  }
+};
+
+game()
