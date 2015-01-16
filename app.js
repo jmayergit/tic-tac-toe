@@ -23,10 +23,6 @@ function isEmpty (box) {
   return box.innerHTML === ""
 }
 
-function isNotEmpty (box) {
-
-}
-
 /// indices is a list of three indices
 function isAllX (indices) {
   for(var i = 0; i < indices.length; i++) {
@@ -81,6 +77,10 @@ function emptyBoxes () {
     if( isEmpty( box ) ) { empty.push(box) }
   }
   return empty
+}
+
+function indexOf (box) {
+  return parseInt(box.id.slice(4)) - 1
 }
 
 function findRow ( index ) {
@@ -160,8 +160,54 @@ function availableDiagonal (index) {
   return false
 }
 
-/// potential from ai perspective
+function xCount (indices) {
+  xNum = 0
+  for( var i = 0; i < indices.length; i++) {
+    currentBox = boxes[ indices[i] ]
+    if( isX(currentBox) ) { xNum += 1 }
+  }
+  return xNum
+}
 
+function oCount (indices) {
+  oNum = 0
+  for( var i = 0; i < indices.length; i++) {
+    currentBox = boxes[ indices[i] ]
+    if( isO(currentBox) ) { oNum += 1 }
+  }
+  return oNum
+}
+
+function emptyCount (indices) {
+  emptyNum = 0
+  for( var i = 0; i < indices.length; i++) {
+    currentBox = boxes[ indices[i] ]
+    if( isEmpty(currentBox) ) { emptyNum += 1 }
+  }
+  return emptyNum
+}
+
+/// checks for two of either x/o + one empty
+function twoInARow (indices) {
+  if( emptyCount(indices) === 1 ) {
+    if( oCount(indices) === 2 || xCount(indices) === 2 ) {
+      return true
+    }
+  }
+  return false
+}
+
+/// if twoInArow we need to find the empty
+function findEmpty (indices) {
+  empty = null
+  for( var i = 0; i < indices.length; i++) {
+    box = boxes[ indices[i] ]
+    if( isEmpty(box) ) { empty = box }
+  }
+  return empty
+}
+
+/// weird potential calculation
 function potentialOf (index) {
   count = 0
   if( index === 4 ) {count += 1 }
@@ -171,18 +217,49 @@ function potentialOf (index) {
   return count
 }
 
+function bestAvailable() {
+  highestPotential = null
+  choice = null
+  available = emptyBoxes()
+
+  for( var i = 0; i < available.length; i++) {
+    box = available[i]
+    index = indexOf(box)
+    indexPotential = potentialOf(index)
+
+    if( indexPotential > highestPotential ) {
+      highestPotential = indexPotential
+      choice = box
+    }
+  }
+  return choice
+}
+
 function aiIntelligence () {
   /// if ai has 2 in a row with a third empty in same row, go for victory
   /// if user has 2 in a row with a third empty in same row, must defeat attempt
-  /// potential of loop
+  /// ^ one in the same
+  for( var i = 0; i < rows.length; i++) {
+    row = rows[i]
+    if( twoInARow(row) ) { return findEmpty(row) }
+  }
+
+  for( var i = 0; i < columns.length; i++) {
+    column = columns[i]
+    if( twoInARow(column) ) { return findEmpty(column) }
+  }
+
+  for( var i = 0; i < diagonals.length; i++) {
+    diagonal = diagonals[i]
+    if( twoInARow(diagonal) ) { return findEmpty(diagonal) }
+  }
+
+  return bestAvailable()
 }
 
 function aiMove () {
   /// AI is X
-  available = emptyBoxes()
-  if ( available.length !== 0 ) {
-    makeX( available[ Math.floor( Math.random() * emptyBoxes.length ) ] )
-  };
+    makeX( aiIntelligence() )
 }
 
 function game () {
