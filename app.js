@@ -70,6 +70,10 @@ function oWin () {
   return false
 }
 
+function catScratch () {
+  
+}
+
 function emptyBoxes () {
   empty = []
   for( var i = 0; i < boxes.length; i++) {
@@ -188,9 +192,9 @@ function emptyCount (indices) {
 }
 
 /// checks for two of either x/o + one empty
-function twoInARow (indices) {
+function twoInARow (indices, funct) {
   if( emptyCount(indices) === 1 ) {
-    if( oCount(indices) === 2 || xCount(indices) === 2 ) {
+    if( funct(indices) === 2 ) {
       return true
     }
   }
@@ -227,7 +231,9 @@ function bestAvailable() {
     index = indexOf(box)
     indexPotential = potentialOf(index)
 
-    if( indexPotential > highestPotential ) {
+    if( choice === null ) {
+      choice = box
+    }else if( indexPotential > highestPotential ) {
       highestPotential = indexPotential
       choice = box
     }
@@ -241,17 +247,32 @@ function aiIntelligence () {
   /// ^ one in the same
   for( var i = 0; i < rows.length; i++) {
     row = rows[i]
-    if( twoInARow(row) ) { return findEmpty(row) }
+    if( twoInARow(row, xCount) ) { return findEmpty(row) }
   }
 
   for( var i = 0; i < columns.length; i++) {
     column = columns[i]
-    if( twoInARow(column) ) { return findEmpty(column) }
+    if( twoInARow(column, xCount) ) { return findEmpty(column) }
   }
 
   for( var i = 0; i < diagonals.length; i++) {
     diagonal = diagonals[i]
-    if( twoInARow(diagonal) ) { return findEmpty(diagonal) }
+    if( twoInARow(diagonal, xCount) ) { return findEmpty(diagonal) }
+  }
+
+  for( var i = 0; i < rows.length; i++) {
+    row = rows[i]
+    if( twoInARow(row, oCount) ) { return findEmpty(row) }
+  }
+
+  for( var i = 0; i < columns.length; i++) {
+    column = columns[i]
+    if( twoInARow(column, oCount) ) { return findEmpty(column) }
+  }
+
+  for( var i = 0; i < diagonals.length; i++) {
+    diagonal = diagonals[i]
+    if( twoInARow(diagonal, oCount) ) { return findEmpty(diagonal) }
   }
 
   return bestAvailable()
