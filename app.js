@@ -23,6 +23,10 @@ function isEmpty (box) {
   return box.innerHTML === ""
 }
 
+function isNotEmpty (box) {
+
+}
+
 /// indices is a list of three indices
 function isAllX (indices) {
   for(var i = 0; i < indices.length; i++) {
@@ -79,18 +83,106 @@ function emptyBoxes () {
   return empty
 }
 
+function findRow ( index ) {
+  found = null
+  for( var i = 0; i < rows.length; i++) {
+    row = rows[i]
+    for( var j = 0; j < row.length; j++) {
+      if( row[j] === index ) { found = row }
+    }
+  }
+  return found
+}
+
+function findColumn (index) {
+  found = null
+  for( var i = 0; i < columns.length; i++) {
+    column = columns[i]
+    for( var j = 0; j < column.length; j++) {
+      if( column[j] === index ) { found = column }
+    }
+  }
+  return found
+}
+
+/// one index has potential of multiple diagonals, covered in potentialOf function
+function findDiagonal (index) {
+  found = null
+  for( var i = 0; i < diagonals.length; i++) {
+    diagonal = diagonals[i]
+    for( var j = 0; j < diagonal.length; j++) {
+      if( diagonal[j] === index ) { found = diagonal }
+    }
+  }
+  return found
+}
+
+/// availability from ai perspective
+
+function availableRow (index) {
+  row = findRow(index)
+  /// player is O
+  for( var i = 0; i < row.length; i++) {
+    if( isO( boxes[ row[i] ] ) ) { return false }
+  }
+  return true
+}
+
+function availableColumn (index) {
+  /// player is O
+  column = findColumn(index)
+  for( var i = 0; i < column.length; i++) {
+    if( isO( boxes[ column[i] ] ) ) { return false }
+  }
+  return true
+}
+
+/// not every index has an available diagonal
+function hasDiagonal (index) {
+  for( var i = 0; i < diagonals.length; i++) {
+    diagonal = diagonals[i]
+    for( var j = 0; j < diagonal.length; j++) {
+      if( diagonal[j] === index) { return true }
+    }
+  }
+  return false
+}
+
+function availableDiagonal (index) {
+  /// player is O
+  if( hasDiagonal(index) ) {
+    diagonal = findDiagonal(index)
+    for( var i = 0; i < diagonal.length; i++) {
+      if( isO( boxes[ diagonal[i] ] ) ) { return false}
+    }
+    return true
+  }
+  return false
+}
+
+/// potential from ai perspective
+
+function potentialOf (index) {
+  count = 0
+  if( index === 4 ) {count += 1 }
+  if( availableColumn( index ) ) { count += 1 }
+  if( availableRow( index ) ) { count += 1 }
+  if( availableDiagonal( index ) ) { count += 1}
+  return count
+}
+
+function aiIntelligence () {
+  /// if ai has 2 in a row with a third empty in same row, go for victory
+  /// if user has 2 in a row with a third empty in same row, must defeat attempt
+  /// potential of loop
+}
+
 function aiMove () {
   /// AI is X
   available = emptyBoxes()
   if ( available.length !== 0 ) {
     makeX( available[ Math.floor( Math.random() * emptyBoxes.length ) ] )
   };
-}
-
-function aiIntelligence () {
-  /// boxes with more availabe adjacent boxes have more potential
-  /// if user has 2 in a row with a third empty is same row, must defeat attempt
-  /// 
 }
 
 function game () {
