@@ -70,10 +70,6 @@ function oWin () {
   return false
 }
 
-function catScratch () {
-  
-}
-
 function emptyBoxes () {
   empty = []
   for( var i = 0; i < boxes.length; i++) {
@@ -81,6 +77,10 @@ function emptyBoxes () {
     if( isEmpty( box ) ) { empty.push(box) }
   }
   return empty
+}
+
+function catScratch () {
+  if( emptyBoxes().length === 0) { return true }
 }
 
 function indexOf (box) {
@@ -289,10 +289,13 @@ function game () {
       /// user is O
       if( isEmpty(this) ) {
         makeO(this)
-        if( oWin() ) { console.log('O wins!')
+        if( oWin() ) {
+          alert('O wins!')
+        }else if( catScratch() ) {
+          alert('Cat Scratch')
         }else {
           aiMove()
-          if( xWin() ) { console.log('X wins!') }
+          if( xWin() ) { alert('X wins!') }
         }
       }
     })
