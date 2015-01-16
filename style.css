@@ -11,6 +11,12 @@
   text-align: center;
 }
 
+.playing_board {
+  width: 318px;
+  height: 318px;
+  margin: 0 auto;
+}
+
 #box_1 {
 
 }
