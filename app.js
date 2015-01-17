@@ -198,7 +198,7 @@ function twoInARow (indices, funct) {
       return true
     }
   }
-  return false
+  return false /// sigh
 }
 
 /// if twoInArow we need to find the empty
