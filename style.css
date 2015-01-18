@@ -1,4 +1,9 @@
+body {
+  background: url("http://i.imgur.com/VGmU1ni.png") repeat scroll 0% 0% #222;
+}
+
 .box {
+  background: linear-gradient(to bottom, #333, #181818);
   position: relative;
   width: 100px;
   height: 100px;
@@ -7,8 +12,11 @@
   border-color: black;
   border-width: 3px;
   font-size: 450%;
-  text-color: white;
   text-align: center;
+  color: #528BA3;
+  text-shadow: 0.1em 0.1em rgba(0, 0, 0, 0.5);
+  font: "Trebuchet MS", "Arial",sans-serif;
+  font-weight: 450;
 }
 
 .playing_board {
