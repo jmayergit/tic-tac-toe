@@ -1,5 +1,7 @@
 body {
+  padding-top: 100px;
   background: url("http://i.imgur.com/VGmU1ni.png") repeat scroll 0% 0% #222;
+  /*background-image: url('omfgdogs.gif');*/
 }
 
 .box {

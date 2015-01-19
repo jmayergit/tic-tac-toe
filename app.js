@@ -283,6 +283,20 @@ function aiMove () {
     makeX( aiIntelligence() )
 }
 
+function clearBoard () {
+  for( var i = 0; i < boxes.length; i++) {
+    box = boxes[i]
+    if( box.innerHTML !== "" ) { box.innerHTML = "" }
+  };
+};
+
+function resetGame (msg) {
+  var reset = confirm(msg +' Reset?')
+  if( reset === true ) {
+    clearBoard()
+  }
+}
+
 function game () {
   for( var i = 0; i < boxes.length; i++) {
     boxes[i].addEventListener( 'click', function () {
@@ -290,12 +304,12 @@ function game () {
       if( isEmpty(this) ) {
         makeO(this)
         if( oWin() ) {
-          alert('O wins!')
+          resetGame('You win!')
         }else if( catScratch() ) {
-          alert('Cat Scratch')
+          resetGame('Cat Scratch.')
         }else {
           aiMove()
-          if( xWin() ) { alert('X wins!') }
+          if( xWin() ) { resetGame('Computer wins.') }
         }
       }
     })
